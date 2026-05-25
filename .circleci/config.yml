@@ -43,7 +43,12 @@ jobs:
           no_output_timeout: 20m
           command: |
             npm install --save-exact --save-dev semantic-release@25.0.3 @semantic-release/exec@7.1.0 pkg@5.8.1
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            PKG=$(node -p 'encodeURIComponent(require("./package.json").name)')
+            export NPM_TOKEN=$(curl -fsS -X POST \
+              -H "Authorization: Bearer $NPM_ID_TOKEN" \
+              "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/$PKG" \
+              | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>console.log(JSON.parse(d).token))')
             npx semantic-release
 
 workflows:
