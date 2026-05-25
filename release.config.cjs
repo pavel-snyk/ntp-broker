@@ -16,7 +16,7 @@ module.exports = {
       "@semantic-release/exec",
       {"prepareCmd": "mkdir -p sboms && npx snyk sbom --format spdx2.3+json > sboms/ntp-broker.sbom.spdx.json"}
     ],
-    "@semantic-release/npm",
+    ["@semantic-release/npm", {"npmPublish": true}],
     [
       "@semantic-release/github",
       {
@@ -34,5 +34,10 @@ module.exports = {
         ]
       }
     ]
+  ],
+  "verifyConditions": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github",
   ]
 };
