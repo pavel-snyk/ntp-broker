@@ -9,14 +9,14 @@
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "incremental": true,
+    "declaration": true,
+    "declarationMap": true,
     "pretty": true,
     "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "moduleResolution": "nodenext",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": [
     "src/**/*"
