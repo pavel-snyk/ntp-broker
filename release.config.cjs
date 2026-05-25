@@ -9,7 +9,7 @@ module.exports = {
     // simulate pkg binary generation
     [
       "@semantic-release/exec",
-      {"prepareCmd": "npm run build && touch ntp-broker-linux"}
+      {"prepareCmd": "npm run build && echo 'random-bytes-and-bits' > ntp-broker-linux"}
     ],
     // generate sboms
     [
