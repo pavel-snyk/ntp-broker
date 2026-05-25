@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  snyk: snyk/snyk@2.3.0
+
 defaults: &defaults
   docker:
     - image: cimg/node:24.15
@@ -31,6 +34,7 @@ jobs:
       - prepare
       - attach_workspace:
           at: ~/ntp-broker
+      - snyk/install
       - run:
           name: Build project
           command: npm run build
@@ -38,7 +42,6 @@ jobs:
           name: Release to GitHub
           no_output_timeout: 20m
           command: |
-            npm install --save-exact --save-dev semantic-release@25.0.3 @semantic-release/exec@7.1.0 pkg@5.8.1
             npx semantic-release
 
 # export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
