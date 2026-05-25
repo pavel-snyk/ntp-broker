@@ -49,7 +49,7 @@ jobs:
               -H "Authorization: Bearer $NPM_ID_TOKEN" \
               "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/$PKG" \
               | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>console.log(JSON.parse(d).token))')
-            echo $NPM_TOKEN
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
             npx semantic-release
 
 workflows:
