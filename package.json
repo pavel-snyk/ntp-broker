@@ -1,0 +1,21 @@
+{
+  "name": "@pavel-snyk/ntp-broker",
+  "version": "0.0.0-semantic-versioning",
+  "description": "testing circleci and npm trusted publishing",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "ISC",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pavel-snyk/ntp-broker.git"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.4",
+    "typescript": "6.0.3"
+  }
+}

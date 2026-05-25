@@ -1,0 +1,58 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: cimg/node:24.15
+  working_directory: ~/ntp-broker
+
+commands:
+  prepare:
+    description: "Checkout repository source code"
+    steps:
+      - checkout
+
+jobs:
+  install-npm-packages:
+    <<: *defaults
+    environment:
+      NODE_ENV: development
+    steps:
+      - prepare
+      - run:
+          name: Install NPM packages
+          command: npm clean-install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules/
+  release:
+    <<: *defaults
+    steps:
+      - prepare
+      - attach_workspace:
+          at: ~/ntp-broker
+      - run:
+          name: Release to GitHub
+          no_output_timeout: 20m
+          command: |
+            npm install --save-exact --save-dev semantic-release@25.0.3 @semantic-release/exec@7.1.0 pkg@5.8.1
+            npx semantic-release
+
+# export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+
+workflows:
+  CICD:
+    jobs:
+      - install-npm-packages:
+          name: Install NPM packages
+
+      - release:
+          name: Release to NPM
+          context:
+            - github-release
+          requires:
+            - Install NPM packages
+          filters:
+            branches:
+              only:
+                - main
