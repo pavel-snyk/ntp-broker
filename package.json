@@ -6,8 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "mkdir -p sboms && npx snyk sbom --format spdx2.3+json > sboms/ntp-broker.sbom.spdx.json"
+    "build": "tsc"
   },
   "license": "ISC",
   "main": "dist/index.js",
